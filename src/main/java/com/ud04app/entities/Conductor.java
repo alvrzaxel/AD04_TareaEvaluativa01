@@ -19,17 +19,13 @@ public class Conductor {
     @Column(name = "vehiculo")
     private String vehiculo;
     
-    // Un conductor está relacionado con varios viajes
-    @OneToMany(mappedBy = "conductor", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    List<Viaje> viajes = new ArrayList<>();
     
     public Conductor() {
     }
     
-    public Conductor(String name, String vehiculo, List<Viaje> viajes) {
+    public Conductor(String name, String vehiculo) {
         this.name = name;
         this.vehiculo = vehiculo;
-        this.viajes = viajes;
     }
     
     // Getter id
@@ -57,24 +53,12 @@ public class Conductor {
         this.vehiculo = vehiculo;
     }
     
-    // Getter viajes
-    public List<Viaje> getViajes() {
-        return viajes;
-    }
-    
-    // Setter viajes
-    public void setViajes(List<Viaje> viajes) {
-        this.viajes = viajes;
-    }
     
     // toString
     @Override
     public String toString() {
-        return "Conductor{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", vehiculo='" + vehiculo + '\'' +
-                ", viajes=" + viajes +
-                '}';
+        return "CONDUCTOR #ID-" + id + "\n" +
+                "- Nombre: " + name + "\n" +
+                "- Vehículo: " + vehiculo + "\n";
     }
 }

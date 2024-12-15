@@ -20,18 +20,13 @@ public class Pasajero {
     @Column(name = "nombre")
     private String nombre;
     
-    // Un pasajero está relacionado con varias reservas
-    @OneToMany(mappedBy = "pasajero", cascade = CascadeType.ALL)
-    List<Reserva> reservas = new ArrayList<>();
-    
     public Pasajero() {
     
     }
     
-    public Pasajero (String email, String nombre, List<Reserva> reservas) {
+    public Pasajero (String email, String nombre) {
         this.email = email;
         this.nombre = nombre;
-        this.reservas = reservas;
     }
     
     // Getter id
@@ -59,16 +54,6 @@ public class Pasajero {
         this.nombre = nombre;
     }
     
-    // Getter reservas
-    public List<Reserva> getReservas() {
-        return reservas;
-    }
-    
-    // Setter reservas
-    public void setReservas(List<Reserva> reservas) {
-        this.reservas = reservas;
-    }
-    
     // toString
     @Override
     public String toString() {
@@ -76,6 +61,5 @@ public class Pasajero {
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", nombre='" + nombre + '\'' +
-                ", reservas=" + reservas +
                 '}';}
 }

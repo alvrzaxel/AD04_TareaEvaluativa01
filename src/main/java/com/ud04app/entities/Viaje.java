@@ -2,6 +2,8 @@ package com.ud04app.entities;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "viaje")
 public class Viaje {
@@ -17,21 +19,29 @@ public class Viaje {
     @Column(name = "ciudadOrigen")
     private String ciudadOrigen;
     
+    @Temporal(TemporalType.TIMESTAMP) // Indica que es un campo de fecha y hora
     @Column(name = "fechaHora")
-    private String fechaHora;
+    private Date fechaHora;
     
     @Column(name = "plazasDisponibles")
     private int plazasDisponibles;
     
     // Un viaje está relacionado sólo con un conductor
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "conductor_id")
+    @JoinColumn(name = "conductorId")
     private Conductor conductor;
     
     public Viaje() {
     }
     
-    public Viaje(String ciudadDestino, String ciudadOrigen, String fechaHora, int plazasDisponibles, Conductor conductor) {
+    public Viaje(String ciudadDestino, String ciudadOrigen, Date fechaHora, int plazasDisponibles) {
+        this.ciudadDestino = ciudadDestino;
+        this.ciudadOrigen = ciudadOrigen;
+        this.fechaHora = fechaHora;
+        this.plazasDisponibles = plazasDisponibles;
+    }
+    
+    public Viaje(String ciudadDestino, String ciudadOrigen, Date fechaHora, int plazasDisponibles, Conductor conductor) {
         this.ciudadDestino = ciudadDestino;
         this.ciudadOrigen = ciudadOrigen;
         this.fechaHora = fechaHora;
@@ -60,12 +70,12 @@ public class Viaje {
     }
     
     // Getter fechaHora
-    public String getFechaHora() {
+    public Date getFechaHora() {
         return fechaHora;
     }
     
     // Setter fechaHora
-    public void setFechaHora(String fechaHora) {
+    public void setFechaHora(Date fechaHora) {
         this.fechaHora = fechaHora;
     }
     
@@ -79,17 +89,25 @@ public class Viaje {
         this.plazasDisponibles = plazasDisponibles;
     }
     
+    // Getter conductor
+    public Conductor getConductor() {
+        return conductor;
+    }
+    
+    // Setter conductor
+    public void setConductor(Conductor conductor) {
+        this.conductor = conductor;
+    }
+    
     // toString
     @Override
     public String toString() {
-        return "Viaje{" +
-                "id=" + id +
-                ", ciudadDestino='" + ciudadDestino + '\'' +
-                ", ciudadOrigen='" + ciudadOrigen + '\'' +
-                ", fechaHora='" + fechaHora + '\'' +
-                ", plazasDisponibles=" + plazasDisponibles +
-                ", conductor=" + conductor +
-                '}';
+        return "VIAJE #ID-" + id + "\n"
+                + "- Ciudad Destino: " + ciudadDestino + "\n"
+                + "- Ciudad Origen: " + ciudadOrigen + "\n"
+                + "- Fecha y Hora: " + fechaHora + "\n"
+                + "- Plazas Disponibles: " + plazasDisponibles + "\n"
+                + conductor;
     }
     
 }
