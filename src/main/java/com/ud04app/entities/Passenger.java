@@ -8,7 +8,7 @@ package com.ud04app.entities;
 
 import jakarta.persistence.*;
 
-// Clase entidad "Pasajero" mapeada con la tabla "pasajero"
+// Clase entidad "Passenger" mapeada con la tabla "pasajero"
 @Entity
 @Table(name = "pasajero")
 public class Passenger {
@@ -25,16 +25,16 @@ public class Passenger {
     
     // Columna que almacena el nombre del pasajero
     @Column(name = "nombre")
-    private String nombre;
+    private String name;
     
     // Constructor por defecto
     public Passenger() {
     }
     
     // Constructor con parámetros
-    public Passenger(String email, String nombre) {
+    public Passenger(String email, String name) {
         this.email = email;
-        this.nombre = nombre;
+        this.name = name;
     }
     
     // Getter para el ID del pasajero
@@ -53,18 +53,18 @@ public class Passenger {
     
     // Getter y Setter para el nombre del pasajero
     public String getName() {
-        return nombre;
+        return name;
     }
     
     public void setName(String nombre) {
-        this.nombre = nombre;
+        this.name = nombre;
     }
     
     // Representación en formato string del pasajero
     @Override
     public String toString() {
         return "PASAJERO #ID_" + id + "\n"
-                + "- Nombre: " + nombre + "\n"
+                + "- Nombre: " + name + "\n"
                 + "- Email: " + email + "\n";
     }
 }

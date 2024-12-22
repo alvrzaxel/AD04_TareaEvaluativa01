@@ -5,17 +5,17 @@
 
 <hibernate-configuration>
     <session-factory>
+
         <!-- Configuración de conexión a la base de datos -->
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/dbviajes?useSSL=false&amp;serverTimezone=UTC</property>
+        <property name="hibernate.connection.url">
+            jdbc:mysql://localhost:3306/dbviajes?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=Europe/Madrid
+        </property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">secret</property>
 
         <!-- Pool entorno para pruebas -->
-        <property name="connection.pool_size">1</property>
-
-        <!-- Dialecto de MySQL
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>-->
+        <property name="connection.pool_size">2</property>
 
         <!-- Mostrar consultas SQL en consola -->
         <property name="hibernate.show_sql">false</property>
@@ -26,7 +26,20 @@
         <!-- Manejo del contexto de la sesión actual -->
         <property name="hibernate.current_session_context_class">thread</property>
 
-        <!-- Añadir mapeos de clases -->
-        <!-- <mapping class="com.tuapp.modelo.TuClase"/> -->
+        <!-- Mapeo de clases -->
+        <mapping class="com.ud04app.entities.Driver"/>
+        <mapping class="com.ud04app.entities.Passenger"/>
+        <mapping class="com.ud04app.entities.Reservation"/>
+        <mapping class="com.ud04app.entities.Trip"/>
+
     </session-factory>
 </hibernate-configuration>
+
+
+
+
+
+
+
+
+

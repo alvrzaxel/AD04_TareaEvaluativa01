@@ -1,13 +1,22 @@
+/**************************************************
+ * Autor: Axel Álvarez Santos
+ * Fecha: 21/12/2024
+ * Tarea: AD04 Tarea Evaluativa 01
+ **************************************************/
+
 package com.ud04app.main;
 
-import com.ud04app.services.ConductorService;
-import com.ud04app.services.PasajeroService;
-import com.ud04app.services.ReservaService;
-import com.ud04app.services.ViajeService;
+import com.ud04app.services.*;
 import com.ud04app.util.Console;
+import com.ud04app.util.HibernateUtil;
 
+/**
+ * Clase principal de la aplicación que gestiona el menú y la ejecución de
+ * las opciones seleccionadas.
+ */
 public class MainApp {
     
+    // Opciones del menú
     static final String[] MENU_OPTIONS = {
             "Crear conductor",
             "Crear viaje",
@@ -19,92 +28,115 @@ public class MainApp {
             "Salir"
     };
     
-    // Instancia de los servicios
-    static ConductorService conductorService = new ConductorService();
-    static ViajeService viajeService = new ViajeService();
-    static PasajeroService pasajeroService = new PasajeroService();
-    static ReservaService reservaService = new ReservaService();
+    // Instancia de los servicios que gestionan las operaciones
+    static DriverService driverService = new DriverService();
+    static TripService tripService = new TripService();
+    static PassengerService passengerService = new PassengerService();
+    static ReservationService reservationService = new ReservationService();
     
+    /**
+     * Entrada y gestión del ciclo de vida de la aplicación
+     * @param args Parámetros de la línea de comandos (no utilizados)
+     */
     public static void main(String[] args) {
-        int selectedOption = 0;
+        int selectedOption;
         
-        do {
+        try {
+            do {
+                // Muestra el menú y lee la opción seleccionada por el usuario
+                selectedOption = printMenu();
+                
+                // Ejecuta la opción seleccionada
+                executeOption(selectedOption);
+                
+            } while (selectedOption != 8); // Se ejecuta hasta que se selecciona la opción de salida
             
-            selectedOption = printMenu();
+            // Mensaje de despedida
+            System.out.println("Fin del programa.");
             
-            executeOption(selectedOption);
-            
-        } while (selectedOption != 8);
-        
-        System.out.println("byeeeeee");
+        } finally {
+            // Cierra la fábrica de sesiones al terminar la aplicación
+            HibernateUtil.shutdown();
+        }
         
     }
     
+    /**
+     * Muestra el menú de opciones y devuelve la opción seleccionada por el usuario
+     * @return La opción seleccionada por el usuario
+     */
     private static int printMenu() {
-        
+        // Formato para el encabezado del menú
         String separator = "=".repeat(3);
         System.out.println(separator + " Menú de Gestión de Viajes Compartidos " + separator);
         
+        // Muestra las opciones del menú
         for (int i = 0; i < MENU_OPTIONS.length; i++) {
             System.out.printf("%d. %s%n", i+1, MENU_OPTIONS[i]);
         }
         
-        return selectOptions(MENU_OPTIONS.length);
+        // Le la opción seleccionada por el usuario
+        return selectOption();
     }
     
-    private static int selectOptions(int maxOptions) {
-        int selectOptions = -1;
+    /**
+     * Lee una opción válida seleccionada por el usuario
+     * @return La opción seleccionada
+     */
+    private static int selectOption() {
+        int maxOptions = MENU_OPTIONS.length;
+        int selectedOption;
         
-        try {
-            do {
-                
-                String input = Console.readString("\nSelecciona una opción: ");
-                
-                try {
-                    selectOptions = Integer.parseInt(input);
-                } catch (NumberFormatException e) {
-                    selectOptions = -1;
-                }
-                
-                if (selectOptions < 1 || selectOptions > maxOptions) {
-                    System.out.println("Opción no válida, debe ser un número entre 1 y " + maxOptions + ".");
-                }
-                
-            } while (selectOptions < 1 || selectOptions > maxOptions);
+        do {
+            // Repite hasta que el usuario seleccione una opción válida
+            selectedOption = Console.readInt("Selecciona una opción: ");
             
-        } catch (Exception e) {
-            System.out.println("Ha ocurrido un error inesperado.");
-        }
+            // Comprueba que la opción está en el rango válido
+            if (selectedOption < 1 || selectedOption > maxOptions) {
+                System.out.println("Opción no válida, debe ser un número entre 1 y " + maxOptions + ".\n");
+            }
+            
+        } while (selectedOption < 1 || selectedOption > maxOptions);
         
-        return selectOptions;
+        return selectedOption;
     }
     
+    /**
+     * Ejecuta la opción seleccionada por el usuario
+     * @param selectedOption La opción seleccionada por el usuario
+     */
     private static void executeOption(int selectedOption) {
+        // Nombre de la opción elegida
+        String optionName = MENU_OPTIONS[selectedOption-1];
         
-        System.out.println("Opción seleccionada: " + selectedOption + ". " + MENU_OPTIONS[selectedOption-1]);
+        // Muestra la opción seleccionada por el usuario
+        System.out.println("\nOpción seleccionada: " + selectedOption + ". " + optionName);
         
+        // Ejecutar la acción correspondiente según la opción seleccionada
         switch (selectedOption) {
-            
             case 1:
-                conductorService.crearConductor();
+                driverService.createDriver();
                 break;
             case 2:
-                viajeService.crearViaje();
+                tripService.createTrip();
                 break;
             case 3:
-                viajeService.printListViajes();
+                tripService.listTrips(true);
                 break;
             case 4:
-                System.out.println("4");
+                passengerService.createPassenger();
                 break;
             case 5:
-                System.out.println("5");
+                reservationService.createReservation();
                 break;
             case 6:
-                System.out.println("6");
+                reservationService.cancelReservation();
                 break;
             case 7:
-                System.out.println("7");
+                tripService.listTrips(false);
+                break;
+            case 8:
+                System.out.println("Saliendo del programa...");
                 break;
         }
     }

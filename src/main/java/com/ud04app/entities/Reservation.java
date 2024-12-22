@@ -11,7 +11,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-// Clase entidad "Reserva" mapeada con la tabla "reserva"
+// Clase entidad "Reservation" mapeada con la tabla "reserva"
 @Entity
 @Table(name = "reserva")
 public class Reservation {
@@ -24,11 +24,11 @@ public class Reservation {
     
     // Columna que almacena la fecha de la reserva
     @Column(name = "fechaReserva")
-    private LocalDateTime fechaReserva;
+    private LocalDateTime reservationDate;
     
     // Columna que almacena el número de plazas reservadas
     @Column(name = "numeroPlazasReservadas")
-    private int numeroPlazasReservadas;
+    private int numberOfReservedSeats;
     
     // Relación de muchos a uno con la entidad "Viaje"
     // @JoinColumn define la columna que establece la relación en la base de datos
@@ -44,18 +44,18 @@ public class Reservation {
     
     // Constructor por defecto, inicializa la fecha de reserva al momento actual
     public Reservation() {
-        this.fechaReserva = LocalDateTime.now();
+        this.reservationDate = LocalDateTime.now();
     }
     
     // Constructor con número de plazas reservadas
-    public Reservation(int numeroPlazasReservadas) {
+    public Reservation(int numberOfReservedSeats) {
         this();
-        this.numeroPlazasReservadas = numeroPlazasReservadas;
+        this.numberOfReservedSeats = numberOfReservedSeats;
     }
     
     // Constructor con número de plazas, viaje y pasajero
-    public Reservation(int numeroPlazasReservadas, Trip trip, Passenger passenger) {
-        this(numeroPlazasReservadas);
+    public Reservation(int numberOfReservedSeats, Trip trip, Passenger passenger) {
+        this(numberOfReservedSeats);
         this.trip = trip;
         this.passenger = passenger;
     }
@@ -67,20 +67,20 @@ public class Reservation {
     
     // Getter y Setter para la fecha de la reserva
     public LocalDateTime getReservationDate() {
-        return fechaReserva;
+        return reservationDate;
     }
     
     public void setReservationDate(LocalDateTime fechaReserva) {
-        this.fechaReserva = fechaReserva;
+        this.reservationDate = fechaReserva;
     }
     
     // Getter y Setter para el número de plazas reservadas en la reserva
-    public int getNumberOfReservedPlaces() {
-        return numeroPlazasReservadas;
+    public int getNumberOfReservedSeats() {
+        return numberOfReservedSeats;
     }
     
-    public void setNumberOfReservedPlaces(int numeroPlazasReservadas) {
-        this.numeroPlazasReservadas = numeroPlazasReservadas;
+    public void setNumberOfReservedSeats(int numeroPlazasReservadas) {
+        this.numberOfReservedSeats = numeroPlazasReservadas;
     }
     
     // Getter y Setter para el viaje relacionado con la reserva
@@ -108,11 +108,11 @@ public class Reservation {
         DateTimeFormatter formatoFechaHora = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy, HH:mm'h'");
         
         // Formatea la fechaHora con el formato personalizado
-        String fechaHoraFormateada = fechaReserva.format(formatoFechaHora);
+        String fechaHoraFormateada = reservationDate.format(formatoFechaHora);
         
         return "RESERVA #ID_" + id + "\n"
                 + "- Fecha reserva: " + fechaHoraFormateada + "\n"
-                + "- Número de plazas reservadas: " + numeroPlazasReservadas + "\n"
+                + "- Número de plazas reservadas: " + numberOfReservedSeats + "\n"
                 + trip
                 + passenger;
     }

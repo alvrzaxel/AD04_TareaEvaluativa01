@@ -8,7 +8,7 @@ package com.ud04app.entities;
 
 import jakarta.persistence.*;
 
-// Clase entidad "Conductor" mapeada a la tabla "conductor"
+// Clase entidad "Driver" mapeada a la tabla "conductor"
 @Entity
 @Table(name = "conductor")
 public class Driver {
@@ -25,16 +25,16 @@ public class Driver {
     
     // Columna que almacena el vehículo del conductor
     @Column(name = "vehiculo")
-    private String vehiculo;
+    private String vehicle;
     
     // Constructor por defecto
     public Driver() {
     }
     
     // Constructor con parámetros
-    public Driver(String name, String vehiculo) {
+    public Driver(String name, String vehicle) {
         this.name = name;
-        this.vehiculo = vehiculo;
+        this.vehicle = vehicle;
     }
     
     // Getter para el ID del conductor
@@ -53,11 +53,11 @@ public class Driver {
     
     // Getter y Setter para el vehiculo del conductor
     public String getVehicle() {
-        return vehiculo;
+        return vehicle;
     }
     
     public void setVehicle(String vehiculo) {
-        this.vehiculo = vehiculo;
+        this.vehicle = vehiculo;
     }
     
     // Representación en formato string del conductor
@@ -65,6 +65,6 @@ public class Driver {
     public String toString() {
         return "CONDUCTOR #ID_" + id + "\n" +
                 "- Nombre: " + name + "\n" +
-                "- Vehículo: " + vehiculo + "\n";
+                "- Vehículo: " + vehicle + "\n";
     }
 }
